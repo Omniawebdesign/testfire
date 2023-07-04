@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Photo Upload</title>
+</head>
+<body>
+  <h1>Photo Upload</h1>
+
+  <form id="upload-form">
+    <input type="file" id="file-input" accept="image/*" required>
+    <button type="submit">Upload Photo</button>
+  </form>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script>
+    // Initialize Firebase
+    var firebaseConfig = {
+      apiKey: "AIzaSyB5hE2YCs80ufplLkJJVuutpKBfpClwJSk",
+      authDomain: "matchb-a4d82.firebaseapp.com",
+      projectId: "matchb-a4d82",
+      storageBucket: "matchb-a4d82.appspot.com",
+      messagingSenderId: "112274781561",
+      appId: "1:112274781561:web:cf966a0842c65d42a9eba8"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the Firebase Storage service
+    var storage = firebase.storage();
+
+    // Get the file input element
+    var fileInput = document.getElementById('file-input');
+
+    // Add event listener to the form submit event
+    document.getElementById('upload-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      var file = fileInput.files[0]; // Get the selected file
+      var storageRef = storage.ref('photos/' + file.name); // Create a reference to the storage location
+
+      // Upload the file to Firebase Storage
+      storageRef.put(file)
+        .then(function (snapshot) {
+          console.log('File uploaded successfully!');
+          // Handle success, e.g., display a success message or redirect to a thank you page
+        })
+        .catch(function (error) {
+          console.error('File upload error:', error);
+          // Handle error, e.g., display an error message to the user
+        });
+    });
+  </script>
+</body>
+</html>
